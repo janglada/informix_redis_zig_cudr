@@ -22,7 +22,7 @@ This repository demonstrates how to write an Informix User-Defined Routine (UDR)
 ```bash
 docker run -it --name ifx -h ifx --privileged -e LICENSE=accept \
     -p 9088:9088 -p 9089:9089 -p 27017:27017 -p 27018:27018 -p 27883:27883 \
-    --add-host=host.docker.internal:host-gateway \
+    --network="host" \
     ibmcom/informix-developer-database:latest
 ```
 ---
@@ -39,13 +39,13 @@ const c = @cImport({
     @cInclude("mi.h");
 });
 
-// Try using the alternative export method
+
 
 export fn redis_publish()  c.mi_integer {
     // Connect to Redis
     const context = c.redisConnect("127.0.0.1", 6379);
     if (context == null) {
-        return 0; // Return 0 for error
+        return 0;
     }
     
     // Check connection status
@@ -58,14 +58,14 @@ export fn redis_publish()  c.mi_integer {
     const reply = c.redisCommand(context, "PUBLISH %s %s", "informix_channel", "Hello from Zig UDR");
     if (reply == null) {
         c.redisFree(context);
-        return 0; // Return 0 for error
+        return 0; 
     }
     
     // Clean up properly
-    c.freeReplyObject(reply);  // Use freeReplyObject for reply
-    c.redisFree(context);      // Use redisFree for context
+    c.freeReplyObject(reply);  
+    c.redisFree(context);     
     
-    return 1; // Return 1 for success
+    return 1; //  1 for success
 }
 
 ```
