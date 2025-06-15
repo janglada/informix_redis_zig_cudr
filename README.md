@@ -19,7 +19,8 @@ This repository demonstrates how to write an Informix User-Defined Routine (UDR)
 ## Install Informix Developer Edition
 
 
-```docker run -it --name ifx -h ifx --privileged -e LICENSE=accept \
+```bash
+docker run -it --name ifx -h ifx --privileged -e LICENSE=accept \
     -p 9088:9088 -p 9089:9089 -p 27017:27017 -p 27018:27018 -p 27883:27883 \
     --add-host=host.docker.internal:host-gateway \
     ibmcom/informix-developer-database:latest
